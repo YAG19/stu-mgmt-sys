@@ -1,4 +1,4 @@
-package com.student.mgmt.exception;
+package com.student.mgmtsys.exception;
 
 
 public class NoStudentFoundException extends RuntimeException {

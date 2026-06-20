@@ -1,8 +1,7 @@
-package com.student.mgmt.entity;
+package com.student.mgmtsys.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;

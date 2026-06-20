@@ -1,4 +1,4 @@
-package com.student.mgmt.exception;
+package com.student.mgmtsys.exception;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

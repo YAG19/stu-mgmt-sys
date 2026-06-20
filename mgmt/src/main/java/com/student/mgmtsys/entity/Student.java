@@ -1,4 +1,4 @@
-package com.student.mgmt.entity;
+package com.student.mgmtsys.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

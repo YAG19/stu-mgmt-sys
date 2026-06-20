@@ -1,7 +1,7 @@
-package com.student.mgmt.controller;
+package com.student.mgmtsys.controller;
 
-import com.student.mgmt.dto.StudentDto;
-import com.student.mgmt.service.StudentService;
+import com.student.mgmtsys.dto.StudentDto;
+import com.student.mgmtsys.service.StudentService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

@@ -1,13 +1,11 @@
-package com.student.mgmt.service;
+package com.student.mgmtsys.service;
 
-import com.student.mgmt.dto.AddressDto;
-import com.student.mgmt.dto.StudentDto;
-import com.student.mgmt.entity.Address;
-import com.student.mgmt.entity.Student;
-import com.student.mgmt.repository.StudentRepository;
+import com.student.mgmtsys.dto.AddressDto;
+import com.student.mgmtsys.dto.StudentDto;
+import com.student.mgmtsys.entity.Address;
+import com.student.mgmtsys.entity.Student;
+import com.student.mgmtsys.repository.StudentRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 //@NoArgsCounstructor
