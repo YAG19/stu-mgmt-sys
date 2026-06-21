@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/admin")
 @Slf4j
 @AllArgsConstructor
-public class StudentController {
+public class AdminController {
 
     private final StudentService studentService;
 

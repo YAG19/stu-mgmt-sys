@@ -1,8 +1,6 @@
 package com.student.mgmtsys.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,8 +13,15 @@ import java.util.List;
 public class Address {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String currentAddress;
-    private String permanentAddress;
-    private List<String> addressHistory;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "student_id", nullable = false)
+    private Student student;
+
+    private String address;
+    private String type;
+
+//    private List<String> addressHistory;
 }
