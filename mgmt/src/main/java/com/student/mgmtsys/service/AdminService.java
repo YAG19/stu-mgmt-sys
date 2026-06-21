@@ -1,24 +1,31 @@
 package com.student.mgmtsys.service;
 
 import com.student.mgmtsys.dto.AddressDto;
+import com.student.mgmtsys.dto.CourseDto;
 import com.student.mgmtsys.dto.StudentDto;
 import com.student.mgmtsys.entity.Address;
+import com.student.mgmtsys.entity.Course;
 import com.student.mgmtsys.entity.Student;
+import com.student.mgmtsys.exception.CourseNotFoundException;
+import com.student.mgmtsys.exception.StudentNotFoundException;
+import com.student.mgmtsys.repository.CourseRepository;
 import com.student.mgmtsys.repository.StudentRepository;
-import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-//@NoArgsCounstructor
-public class StudentService {
+@AllArgsConstructor
+public class AdminService {
     private final StudentRepository studentRepository;
+    private final CourseRepository courseRepository;
 
-    public StudentService(StudentRepository studentRepository){
-        this.studentRepository = studentRepository;
-    }
+//    public AdminService(StudentRepository studentRepository){
+//        this.studentRepository = studentRepository;
+//    }
 
     public StudentDto getStudent(Long id) {
         Student studentOptional = studentRepository.findById(id).orElseThrow(RuntimeException::new);
@@ -85,5 +92,47 @@ public class StudentService {
             addressDto.add(dto);
         }
         return addressDto;
+    }
+
+    public StudentDto getStudentByName(String name) {
+        Student student = studentRepository.findByName(name);
+        return studentToDto(student);
+    }
+
+    public void enrollStudent(Long studentId, Long courseId) {
+        Student student = studentRepository.findById(studentId).orElseThrow(() -> new StudentNotFoundException("Student not found"));
+        Course course = courseRepository.findById(courseId).orElseThrow(() -> new CourseNotFoundException("Course not found"));
+        student.getEnrolledCourses().add(course);
+        studentRepository.save(student);
+    }
+
+    public CourseDto createCourses(CourseDto courseDto) {
+        Course course = mapDtoToCourse(courseDto);;
+        Course savedCourse = courseRepository.save(course);
+        return mapCourseToDTO(savedCourse);
+    }
+
+    private static CourseDto mapCourseToDTO(Course savedCourse) {
+        CourseDto courseDto = new CourseDto();
+        courseDto.setCourseName(savedCourse.getCourseName());
+        courseDto.setCourseType(savedCourse.getCourseType());
+        courseDto.setCourseDescription(savedCourse.getCourseDescription());
+        courseDto.setCourseDuration(savedCourse.getCourseDuration());
+        courseDto.setTopics(savedCourse.getTopics());
+        return courseDto;
+    }
+
+    private static Course mapDtoToCourse(CourseDto courseDto) {
+        Course course = new Course();
+        course.setCourseName(courseDto.getCourseName());
+        course.setCourseType(courseDto.getCourseType());
+        course.setCourseDescription(courseDto.getCourseDescription());
+        course.setCourseDuration(courseDto.getCourseDuration());
+        course.setTopics(courseDto.getTopics());
+        return course;
+    }
+
+    public List<CourseDto> getAllCourses() {
+        return courseRepository.findAll().stream().map(AdminService::mapCourseToDTO).toList();
     }
 }

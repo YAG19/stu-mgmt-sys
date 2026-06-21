@@ -8,10 +8,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionalHandler {
 
 
-    @ExceptionHandler(NoStudentFoundException.class)
-    public ResponseEntity<String> hanlder(String message, Exception exception){
-//        return (ResponseEntity<String>) ResponseEntity.notFound(" SAdasd");
-        return null;
+    @ExceptionHandler(StudentNotFoundException.class)
+    public ResponseEntity<String> handleStudentNotFoundException(StudentNotFoundException exception){
+        return ResponseEntity.notFound().build();
+    }
+
+    @ExceptionHandler(CourseNotFoundException.class)
+    public ResponseEntity<String> handleCourseNotFoundException(CourseNotFoundException exception){
+        return ResponseEntity.notFound().build();
     }
 
 }
