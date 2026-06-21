@@ -11,7 +11,7 @@ public interface AdminService {
 
     StudentDto addStudent(StudentDto studentDto);
 
-    StudentDto getStudentByName(String name);
+    List<StudentDto> getStudentByName(String name);
 
     void enrollStudent(Long studentId, Long courseId);
 

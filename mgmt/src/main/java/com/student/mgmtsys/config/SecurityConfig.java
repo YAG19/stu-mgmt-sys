@@ -17,9 +17,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final StudentHeaderAuthFilter studentHeaderAuthFilter;
 
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter,
+                          StudentHeaderAuthFilter studentHeaderAuthFilter) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.studentHeaderAuthFilter = studentHeaderAuthFilter;
     }
 
     @Bean
@@ -30,15 +33,17 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()        // login is open
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")  // role comes from the JWT
-                        .anyRequest().permitAll())                          // other endpoints open for now
+                        .requestMatchers("/api/auth/**").permitAll()            // login is open
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")      // role comes from the JWT
+                        .requestMatchers("/api/students/**").hasRole("STUDENT") // role comes from the X-Student-* headers
+                        .anyRequest().permitAll())                              // other endpoints open for now
 
-                // no/invalid token -> 401 (instead of the default 403 when no entry point is set)
+                // no/invalid credentials -> 401 (instead of the default 403 when no entry point is set)
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
 
-                // validate the Bearer token before the username/password filter
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                // authenticate via Bearer token (admin) and X-Student-* headers (student)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(studentHeaderAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

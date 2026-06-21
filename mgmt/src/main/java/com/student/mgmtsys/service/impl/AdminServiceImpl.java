@@ -43,9 +43,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public StudentDto getStudentByName(String name) {
-        Student student = studentRepository.findByName(name);
-        return StudentMapper.toDto(student);
+    public List<StudentDto> getStudentByName(String name) {
+        List<Student> students = studentRepository.findByName(name);
+        if(students == null || students.isEmpty()) throw new StudentNotFoundException("Student not found");
+        return students.stream().map(StudentMapper::toDto).toList();
     }
 
     @Override

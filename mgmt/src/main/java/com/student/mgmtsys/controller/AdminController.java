@@ -34,7 +34,7 @@ public class AdminController {
     }
 
     @GetMapping("/student/find")
-    public ResponseEntity<StudentDto> getStudentByName(@RequestParam(name = "name") String name){
+    public ResponseEntity<List<StudentDto>> getStudentByName(@RequestParam(name = "name") String name){
         return ResponseEntity.ok(adminService.getStudentByName(name));
     }
 

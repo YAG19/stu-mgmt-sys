@@ -123,20 +123,22 @@ class AdminServiceTest {
 
     @Test
     void getStudentByName_returnsMappedDto() {
-        Student student = buildStudent(5L, "Dave");
+        List<Student> student = List.of(buildStudent(5L, "Dave"));
         when(studentRepository.findByName("Dave")).thenReturn(student);
 
-        StudentDto result = adminService.getStudentByName("Dave");
+        List<StudentDto> result = adminService.getStudentByName("Dave");
 
         assertThat(result).isNotNull();
-        assertThat(result.getName()).isEqualTo("Dave");
+        assertThat(result.getFirst().getName()).isEqualTo("Dave");
     }
 
     @Test
-    void getStudentByName_returnsNull_whenNotFound() {
+    void getStudentByName_throws_whenNotFound() {
         when(studentRepository.findByName("Ghost")).thenReturn(null);
 
-        assertThat(adminService.getStudentByName("Ghost")).isNull();
+        assertThatThrownBy(() -> adminService.getStudentByName("Ghost"))
+                .isInstanceOf(StudentNotFoundException.class)
+                .hasMessageContaining("Student not found");
     }
 
     // ---------- enrollStudent ----------
