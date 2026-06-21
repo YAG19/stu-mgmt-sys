@@ -1,0 +1,399 @@
+{
+	"info": {
+		"_postman_id": "ceac4164-5668-4dc6-b38b-90830c14505e",
+		"name": "Student Management API",
+		"description": "Collection for AdminController and StudentController endpoints (import into Postman). Default baseUrl is http://localhost:8080",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Add Student",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4MjAzNTQzNCwiZXhwIjoxNzgyMTIxODM0fQ.thFOmETVy_mqYKcQjabD6c8yaWNzqhbQhlG70Wfirxl-AZr-_7n3KMzFFcdScWMGVSDCNT9MoEBNyrnUVIRGtg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Yagnesh1\",\n  \"dateOfBirth\": \"2005-06-15\",\n  \"gender\": \"Male\",\n  \"email\": \"yagnesh@example.com\",\n  \"phoneNumber\": \"1234567890\",\n  \"parentName\": \"xyz\",\n  \"uniqueCode\":\"20260010024\",\n  \"addresses\": [\n    { \"type\": \"home\", \"address\": \"123 Main St\" },\n    { \"type\": \"local\", \"address\": \"456 Secondary St\" }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/student",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"student"
+							]
+						},
+						"description": "Create a new student. Body follows StudentDto shape."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Student by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4MjAzNjQ2OSwiZXhwIjoxNzgyMTIyODY5fQ.55nYHW5wXdvQQx-7DZveRaYuGvbHv_2WtmlXFhSYul1qeaN7HWPamLE4tmCO-cCsUlMP1rRFsQLjAy83I3Z3XQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/student/1553",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"student",
+								"1553"
+							]
+						},
+						"description": "Get student by numeric id (replace 1). Note: controller also has a GET by name that uses the same path pattern."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Student by Name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/student/find?name=Yagnesh12",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"student",
+								"find"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Yagnesh12"
+								}
+							]
+						},
+						"description": "Get student by name (replace John%20Doe). Note: path pattern is identical to Get Student by ID — server routing may be ambiguous."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Course",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": " {\n        \"courseName\": \"Mathematics 101\",\n        \"courseDescription\": \"Intro to Algebra\",\n        \"courseType\": \"Academic\",\n        \"courseDuration\": \"3 months\",\n        \"topics\": [\"Algebra\", \"Geometry\"]\n    }"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/courses",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"courses"
+							]
+						},
+						"description": "Create a new course. Body follows CourseDto shape."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Courses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/courses",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"courses"
+							]
+						},
+						"description": "Get a list of all courses"
+					},
+					"response": []
+				},
+				{
+					"name": "Enroll Student in Course",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/student/1452/course/102/enroll",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"student",
+								"1452",
+								"course",
+								"102",
+								"enroll"
+							]
+						},
+						"description": "Enroll studentId (1) in courseId (10). No body required."
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Login - token gen",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('status is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('returns a JWT token', function () {",
+									"    var json = pm.response.json();",
+									"    pm.expect(json.token).to.be.a('string').and.not.empty;",
+									"    pm.expect(json.tokenType).to.eql('Bearer');",
+									"    pm.expect(json.role).to.eql('ADMIN');",
+									"    pm.collectionVariables.set('adminToken', json.token);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/admin/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"admin",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Login - wrong credentials (401)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('status is 401', function () {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"pm.test('returns invalid credentials message', function () {",
+									"    var json = pm.response.json();",
+									"    pm.expect(json.message).to.eql('Invalid username or password');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"admin\",\n  \"password\": \"wrong\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/admin/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"admin",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4MjAzNjQ2OSwiZXhwIjoxNzgyMTIyODY5fQ.55nYHW5wXdvQQx-7DZveRaYuGvbHv_2WtmlXFhSYul1qeaN7HWPamLE4tmCO-cCsUlMP1rRFsQLjAy83I3Z3XQ",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Student",
+			"item": [
+				{
+					"name": "Update Student",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"phoneNumber\": \"9876543210\",\n    \"parentName\": \"Jane Doe\",\n    \"address\": {\n        \"type\": \"home\",\n        \"address\": \"123 not main St\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/students/1452",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"students",
+								"1452"
+							]
+						},
+						"description": "Update student with id 1. Body follows StudentDto shape."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Courses for Student",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/students/1452/courses",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"students",
+								"1452",
+								"courses"
+							]
+						},
+						"description": "Get all courses a student (id 1) is enrolled in. Note: controller method expects a path variable name mismatch (`id` vs `studentId`) — server may still bind by position but consider fixing the annotation."
+					},
+					"response": []
+				},
+				{
+					"name": "Unenroll Student from Course",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/students/1452/course/52",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"students",
+								"1452",
+								"course",
+								"52"
+							]
+						},
+						"description": "Unenroll studentId (1) from courseId (10). No body required."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080"
+		},
+		{
+			"key": "adminToken",
+			"value": ""
+		}
+	]
+}
