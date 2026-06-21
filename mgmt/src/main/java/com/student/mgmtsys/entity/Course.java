@@ -20,7 +20,7 @@ public class Course {
     private String courseDescription;
     private String courseType;
     private String courseDuration;
-    private String topics;
+    private List<String> topics;
 
 //    @ManyToMany(mappedBy = "enrolledCourses")
 //    private List<Student> enrolledStudents;

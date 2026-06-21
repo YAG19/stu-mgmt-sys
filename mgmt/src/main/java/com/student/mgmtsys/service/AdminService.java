@@ -112,7 +112,7 @@ public class AdminService {
         return mapCourseToDTO(savedCourse);
     }
 
-    private static CourseDto mapCourseToDTO(Course savedCourse) {
+    public static CourseDto mapCourseToDTO(Course savedCourse) {
         CourseDto courseDto = new CourseDto();
         courseDto.setCourseName(savedCourse.getCourseName());
         courseDto.setCourseType(savedCourse.getCourseType());

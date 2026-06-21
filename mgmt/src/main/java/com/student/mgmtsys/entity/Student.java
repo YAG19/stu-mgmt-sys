@@ -32,4 +32,8 @@ public class Student {
             inverseJoinColumns = @JoinColumn(name = "course_id")
     )
     private List<Course> enrolledCourses;
+
+    private String email;
+    private String phoneNumber;
+    private String parentName;
 }
