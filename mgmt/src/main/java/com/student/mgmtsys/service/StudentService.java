@@ -2,12 +2,12 @@ package com.student.mgmtsys.service;
 
 import com.student.mgmtsys.dto.CourseDto;
 import com.student.mgmtsys.dto.StudentDto;
+import com.student.mgmtsys.dto.StudentUpdateProfileDto;
 import com.student.mgmtsys.entity.Student;
 import com.student.mgmtsys.exception.StudentNotFoundException;
 import com.student.mgmtsys.repository.StudentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
@@ -17,19 +17,19 @@ public class StudentService {
 
     private final StudentRepository studentRepository;
 
-    public StudentDto updateStudent(Long id, StudentDto studentDto) {
+    public StudentDto updateStudent(Long id, StudentUpdateProfileDto studentProfileDto) {
         Student student = studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException("Student not found"));
-        student.setEmail(studentDto.getEmail());
-        student.setPhoneNumber(studentDto.getPhoneNumber());
-        student.setParentName(studentDto.getParentName());
+        student.setEmail(studentProfileDto.getEmail());
+        student.setPhoneNumber(studentProfileDto.getPhoneNumber());
+        student.setParentName(studentProfileDto.getParentName());
 
         student.getAddresses().stream()
-                .filter( address -> address.getType().equals(studentDto.getAddress().getType()))
+                .filter( address -> address.getType().equals(studentProfileDto.getAddress().getType()))
                 .findFirst()
-                .ifPresent(olddAddress -> olddAddress.setAddress(studentDto.getAddress().getAddress()));
+                .ifPresent(olddAddress -> olddAddress.setAddress(studentProfileDto.getAddress().getAddress()));
 
-        studentRepository.save(student);
-        return AdminService.studentToDto(student);
+        Student savedStudent = studentRepository.save(student);
+        return AdminService.mapStudentToDto(savedStudent);
     }
 
 

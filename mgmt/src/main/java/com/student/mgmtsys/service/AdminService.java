@@ -12,7 +12,6 @@ import com.student.mgmtsys.repository.CourseRepository;
 import com.student.mgmtsys.repository.StudentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,16 +22,11 @@ public class AdminService {
     private final StudentRepository studentRepository;
     private final CourseRepository courseRepository;
 
-//    public AdminService(StudentRepository studentRepository){
-//        this.studentRepository = studentRepository;
-//    }
-
     public StudentDto getStudent(Long id) {
         Student studentOptional = studentRepository.findById(id).orElseThrow(RuntimeException::new);
-        return studentToDto(studentOptional);
+        return mapStudentToDto(studentOptional);
     }
 
-//    @Transactional(value = Transactional.TxType.REQUIRED)
     public StudentDto addStudent(StudentDto studentDto) {
         Student student = mapToStudent(studentDto);
         List<Address> address = mapToAddress(studentDto.getAddresses());
@@ -42,7 +36,7 @@ public class AdminService {
         }
         student.setAddresses(address);
         Student savedStudent = studentRepository.save(student);
-        return studentToDto(savedStudent);
+        return mapStudentToDto(savedStudent);
     }
 
     public static Student mapToStudent(StudentDto studentDto){
@@ -50,6 +44,10 @@ public class AdminService {
         student.setName(studentDto.getName());
         student.setGender(studentDto.getGender());
         student.setDob(studentDto.getDateOfBirth());
+//        student.setEmail(studentDto.getEmail());
+        student.setCode(studentDto.getUniqueCode());
+//        student.setPhoneNumber(studentDto.getPhoneNumber());
+//        student.setParentName(studentDto.getParentName());
         return student;
     }
 
@@ -65,7 +63,7 @@ public class AdminService {
         return addresses;
     }
 
-    public static StudentDto studentToDto(Student student){
+    public static StudentDto mapStudentToDto(Student student){
         if(student == null) return null;
 
         StudentDto studentDto = new StudentDto();
@@ -79,6 +77,10 @@ public class AdminService {
         studentDto.setId(student.getId());
         studentDto.setDateOfBirth(student.getDob());
         studentDto.setGender(student.getGender());
+//        studentDto.setEmail(student.getEmail());
+//        studentDto.setParentName(student.getParentName());
+//        studentDto.setPhoneNumber(student.getPhoneNumber());
+        studentDto.setUniqueCode(student.getCode());
         return studentDto;
 
     }
@@ -96,7 +98,7 @@ public class AdminService {
 
     public StudentDto getStudentByName(String name) {
         Student student = studentRepository.findByName(name);
-        return studentToDto(student);
+        return mapStudentToDto(student);
     }
 
     public void enrollStudent(Long studentId, Long courseId) {
@@ -114,6 +116,7 @@ public class AdminService {
 
     public static CourseDto mapCourseToDTO(Course savedCourse) {
         CourseDto courseDto = new CourseDto();
+        courseDto.setId(savedCourse.getId());
         courseDto.setCourseName(savedCourse.getCourseName());
         courseDto.setCourseType(savedCourse.getCourseType());
         courseDto.setCourseDescription(savedCourse.getCourseDescription());

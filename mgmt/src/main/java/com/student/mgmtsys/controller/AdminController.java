@@ -1,5 +1,6 @@
 package com.student.mgmtsys.controller;
 
+import com.student.mgmtsys.dto.ApiResponse;
 import com.student.mgmtsys.dto.CourseDto;
 import com.student.mgmtsys.dto.StudentDto;
 import com.student.mgmtsys.service.AdminService;
@@ -7,12 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,14 +28,13 @@ public class AdminController {
         return new ResponseEntity<>(savedStudent, HttpStatus.CREATED);
     }
 
-
     @GetMapping("/student/{id}")
     public ResponseEntity<StudentDto> getStudent(@PathVariable Long id){
         return ResponseEntity.ok(adminService.getStudent(id));
     }
 
-    @GetMapping("/student/{name}")
-    public ResponseEntity<StudentDto> getStudentByName(@PathVariable String name){
+    @GetMapping("/student/find")
+    public ResponseEntity<StudentDto> getStudentByName(@RequestParam(name = "name") String name){
         return ResponseEntity.ok(adminService.getStudentByName(name));
     }
 
@@ -56,9 +51,9 @@ public class AdminController {
     }
 
     @PostMapping("/student/{studentId}/course/{courseId}/enroll")
-    public ResponseEntity<Void> enrollStudent(@PathVariable Long studentId, @PathVariable Long courseId){
+    public ResponseEntity<ApiResponse> enrollStudent(@PathVariable Long studentId, @PathVariable Long courseId){
         adminService.enrollStudent(studentId, courseId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(new ApiResponse("Success", "Student enrolled in course successfully"));
     }
 
 }

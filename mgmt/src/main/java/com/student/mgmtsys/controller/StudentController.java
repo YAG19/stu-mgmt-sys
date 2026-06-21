@@ -1,7 +1,9 @@
 package com.student.mgmtsys.controller;
 
+import com.student.mgmtsys.dto.ApiResponse;
 import com.student.mgmtsys.dto.CourseDto;
 import com.student.mgmtsys.dto.StudentDto;
+import com.student.mgmtsys.dto.StudentUpdateProfileDto;
 import com.student.mgmtsys.service.StudentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,22 +19,22 @@ public class StudentController {
     private StudentService studentService;
 
     @PutMapping("/{id}")
-    public ResponseEntity<StudentDto> updateStudent(@PathVariable Long id, @RequestBody StudentDto studentDto) {
-        StudentDto updatedStudent = studentService.updateStudent(id, studentDto);
+    public ResponseEntity<StudentDto> updateStudent(@PathVariable Long id, @RequestBody StudentUpdateProfileDto studentProfileDto) {
+        StudentDto updatedStudent = studentService.updateStudent(id, studentProfileDto);
         return ResponseEntity.ok(updatedStudent);
     }
 
 
-    @GetMapping("/{id}/courses")
+    @GetMapping("/{studentId}/courses")
     public ResponseEntity<List<CourseDto>> getAllCourseByStudentId(@PathVariable Long studentId) {
         List<CourseDto> courses = studentService.getAllCoursesByStudentId(studentId);
         return ResponseEntity.ok(courses);
     }
 
     @DeleteMapping("/{studentId}/course/{courseId}")
-    public ResponseEntity<Void> unenrollStudentFromCourse(@PathVariable Long studentId, @PathVariable Long courseId) {
+    public ResponseEntity<ApiResponse> unenrollStudentFromCourse(@PathVariable Long studentId, @PathVariable Long courseId) {
         studentService.unenrollStudentFromCourse(studentId, courseId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(new ApiResponse("Success", "Student unenrolled from course successfully"));
     }
 
 }

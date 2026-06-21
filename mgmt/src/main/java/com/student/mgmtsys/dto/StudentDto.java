@@ -26,8 +26,8 @@ public class StudentDto {
     private String uniqueCode;
     private List<AddressDto> addresses;
 
-    private String email;
-    private String phoneNumber;
-    private String parentName;
-    private AddressDto address;
+//    private String email;
+//    private String phoneNumber;
+//    private String parentName;
+//    private AddressDto address;
 }

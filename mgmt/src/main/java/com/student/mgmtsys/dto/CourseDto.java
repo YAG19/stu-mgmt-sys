@@ -12,6 +12,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class CourseDto {
+    private Long id;
     private String courseName;
     private String courseDescription;
     private String courseType;
