@@ -9,14 +9,15 @@ import com.student.mgmtsys.entity.Course;
 import com.student.mgmtsys.entity.Student;
 import com.student.mgmtsys.exception.StudentNotFoundException;
 import com.student.mgmtsys.repository.StudentRepository;
+import com.student.mgmtsys.service.impl.StudentServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +35,7 @@ class StudentServiceTest {
     private StudentRepository studentRepository;
 
     @InjectMocks
-    private StudentService studentService;
+    private StudentServiceImpl studentService;
 
     // ---------- updateStudent ----------
 
@@ -184,7 +185,7 @@ class StudentServiceTest {
         student.setId(id);
         student.setName(name);
         student.setGender("F");
-        student.setDob(new Date());
+        student.setDateOfBirth(LocalDate.of(2000, 1, 1));
         student.setCode("STU-" + id);
         return student;
     }

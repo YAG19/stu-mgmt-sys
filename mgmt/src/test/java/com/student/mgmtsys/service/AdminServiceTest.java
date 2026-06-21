@@ -8,8 +8,10 @@ import com.student.mgmtsys.entity.Course;
 import com.student.mgmtsys.entity.Student;
 import com.student.mgmtsys.exception.CourseNotFoundException;
 import com.student.mgmtsys.exception.StudentNotFoundException;
+import com.student.mgmtsys.mapper.StudentMapper;
 import com.student.mgmtsys.repository.CourseRepository;
 import com.student.mgmtsys.repository.StudentRepository;
+import com.student.mgmtsys.service.impl.AdminServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -17,7 +19,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +41,7 @@ class AdminServiceTest {
     private CourseRepository courseRepository;
 
     @InjectMocks
-    private AdminService adminService;
+    private AdminServiceImpl adminService;
 
     // ---------- getStudent ----------
 
@@ -72,7 +74,7 @@ class AdminServiceTest {
         StudentDto dto = new StudentDto();
         dto.setName("Bob");
         dto.setGender("M");
-        dto.setDateOfBirth(new Date());
+        dto.setDateOfBirth(LocalDate.of(2000, 1, 1));
         dto.setUniqueCode("STU-2");
         AddressDto addressDto = new AddressDto();
         addressDto.setType("HOME");
@@ -105,7 +107,7 @@ class AdminServiceTest {
         StudentDto dto = new StudentDto();
         dto.setName("Carol");
         dto.setGender("F");
-        dto.setDateOfBirth(new Date());
+        dto.setDateOfBirth(LocalDate.of(2000, 1, 1));
         dto.setAddresses(null);
         when(studentRepository.save(any(Student.class))).thenAnswer(inv -> inv.getArgument(0));
 
@@ -229,11 +231,11 @@ class AdminServiceTest {
         verify(courseRepository, times(1)).findAll();
     }
 
-    // ---------- static mapper edge cases ----------
+    // ---------- mapper edge cases ----------
 
     @Test
     void mapStudentToDto_returnsNull_forNullStudent() {
-        assertThat(AdminService.mapStudentToDto(null)).isNull();
+        assertThat(StudentMapper.toDto(null)).isNull();
     }
 
     // ---------- helpers ----------
@@ -243,7 +245,7 @@ class AdminServiceTest {
         student.setId(id);
         student.setName(name);
         student.setGender("F");
-        student.setDob(new Date());
+        student.setDateOfBirth(LocalDate.of(2000, 1, 1));
         student.setCode("STU-" + id);
         return student;
     }
