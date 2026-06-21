@@ -19,15 +19,18 @@ public class StudentService {
 
     public StudentDto updateStudent(Long id, StudentUpdateProfileDto studentProfileDto) {
         Student student = studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException("Student not found"));
-        student.setEmail(studentProfileDto.getEmail());
-        student.setPhoneNumber(studentProfileDto.getPhoneNumber());
-        student.setParentName(studentProfileDto.getParentName());
 
-        student.getAddresses().stream()
-                .filter( address -> address.getType().equals(studentProfileDto.getAddress().getType()))
-                .findFirst()
-                .ifPresent(olddAddress -> olddAddress.setAddress(studentProfileDto.getAddress().getAddress()));
+        if (studentProfileDto.getEmail() != null) student.setEmail(studentProfileDto.getEmail());
+        if (studentProfileDto.getPhoneNumber() != null) student.setPhoneNumber(studentProfileDto.getPhoneNumber());
+        if (studentProfileDto.getParentName() != null) student.setParentName(studentProfileDto.getParentName());
 
+        if (studentProfileDto.getAddress() != null ) {
+
+            student.getAddresses().stream()
+                    .filter(address -> address.getType().equals(studentProfileDto.getAddress().getType()))
+                    .findFirst()
+                    .ifPresent(olddAddress -> olddAddress.setAddress(studentProfileDto.getAddress().getAddress()));
+        }
         Student savedStudent = studentRepository.save(student);
         return AdminService.mapStudentToDto(savedStudent);
     }

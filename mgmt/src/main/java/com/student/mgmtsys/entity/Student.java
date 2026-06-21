@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,7 +24,7 @@ public class Student {
     private String name;
 
     @Temporal(TemporalType.DATE)
-    private Date dob;
+    private LocalDate dateOfBirth;
 
     private String gender;
 

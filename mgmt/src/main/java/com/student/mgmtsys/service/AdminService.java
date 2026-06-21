@@ -43,11 +43,8 @@ public class AdminService {
         Student student = new Student();
         student.setName(studentDto.getName());
         student.setGender(studentDto.getGender());
-        student.setDob(studentDto.getDateOfBirth());
-//        student.setEmail(studentDto.getEmail());
+        student.setDateOfBirth(studentDto.getDateOfBirth());
         student.setCode(studentDto.getUniqueCode());
-//        student.setPhoneNumber(studentDto.getPhoneNumber());
-//        student.setParentName(studentDto.getParentName());
         return student;
     }
 
@@ -75,7 +72,7 @@ public class AdminService {
 
         studentDto.setName(student.getName());
         studentDto.setId(student.getId());
-        studentDto.setDateOfBirth(student.getDob());
+        studentDto.setDateOfBirth(student.getDateOfBirth());
         studentDto.setGender(student.getGender());
 //        studentDto.setEmail(student.getEmail());
 //        studentDto.setParentName(student.getParentName());
