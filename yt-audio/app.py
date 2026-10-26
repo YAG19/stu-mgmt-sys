@@ -7,6 +7,8 @@ import mimetypes
 import os
 import re
 import shutil
+import socket
+import sys
 import tempfile
 from urllib.parse import quote, urlparse
 
@@ -127,7 +129,23 @@ def convert():
     return Response(stream(), mimetype=mimetypes.guess_type(filename)[0] or "application/octet-stream",
                     headers=headers)
 
+
+def lan_ip():
+    # Connecting a UDP socket sends nothing; it just picks the outward-facing interface.
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
+        try:
+            s.connect(("10.255.255.255", 1))
+            return s.getsockname()[0]
+        except OSError:
+            return "127.0.0.1"
+
+
 if __name__ == "__main__":
     if not shutil.which("ffmpeg"):
         raise SystemExit("ffmpeg is required: install it and make sure it is on your PATH.")
-    app.run(host="127.0.0.1", port=int(os.environ.get("PORT", 5000)), debug=False)
+    port = int(os.environ.get("PORT", 5000))
+    # --lan makes the app reachable from other devices (e.g. your phone) on the same Wi-Fi.
+    host = "0.0.0.0" if "--lan" in sys.argv else os.environ.get("HOST", "127.0.0.1")
+    if host == "0.0.0.0":
+        print(f"\n  Open this on your phone (same Wi-Fi): http://{lan_ip()}:{port}\n")
+    app.run(host=host, port=port, debug=False)

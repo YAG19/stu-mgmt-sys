@@ -32,6 +32,20 @@ python app.py
 
 Open http://127.0.0.1:5000, paste a link, pick a format, and click **Convert & download**.
 
+### Use it from your phone
+
+Run it with `--lan` so other devices on the same Wi-Fi can reach it:
+
+```bash
+python app.py --lan
+```
+
+It prints an address like `http://192.168.1.23:5000` — open that in your phone's browser.
+Your laptop and phone must be on the same network. If the page doesn't load, allow Python
+through your firewall (Windows asks on first run; on macOS accept the "incoming connections"
+prompt). Anyone on the same network can use it while it runs, so only use `--lan` on a network
+you trust.
+
 ### API
 
 ```bash
